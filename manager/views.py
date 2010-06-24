@@ -5,7 +5,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout as AuthLogOut
-from models.models import Job,JobApplication,JobType,User,UserType,Country,City,State,Notifiaction,Profile,Admin,AdminType
+from models.models import *
 import random,string,hashlib
 # Create your views here.
 
@@ -439,7 +439,7 @@ def create_notification(request):
             isread = int(request.POST.get('isread'))
             
 
-            obj = User.objects.create(
+            obj = Notification.objects.create(
                senderid = senderid,
                uid = uid,
                status = status ,
