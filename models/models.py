@@ -89,3 +89,18 @@ class Notifiaction(models.Model):
       message       = models.TextField()
       isread        = models.IntegerField()
       createdate    = models.DateTimeField(default=now)
+
+
+class Admin(models.Model):
+       id            = models.AutoField(primary_key=True)
+       username      = models.CharField(max_length=20)
+       password      = models.CharField(max_length=200)
+       secret        = models.CharField(max_length=20)
+       admintype     = models.IntegerField()
+       status        = models.IntegerField()
+       createdate    = models.DateTimeField(default=now)
+
+
+class AdminType(models.Model):
+       id            = models.AutoField(primary_key=True)
+       name      = models.CharField(max_length=20)

@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render,redirect
-from models.models import Job,JobApplication,JobType,User,UserType,Country,City,State,Notifiaction,Profile
-
+from models.models import Job,JobApplication,JobType,User,UserType,Country,City,State,Notifiaction,Profile,Admin,AdminType
+import random,string,hashlib
 # Create your views here.
 
 #CRUD for User Model  ----------------------------------------------------------------------------------------------
@@ -555,4 +555,80 @@ def delete_job(request,id):
       
 
     return render(request,'delete.html',{'job': job}) 
+
+#CRUD for Admin ------------------------------------------------------------------------------------------------
+def ListAdmin(request):
+    admin = Admin.objects.all()
+    return render(request,'admin.html',{'admins':admin}) 
+
+def CreateAdmin(request):
+    if request.method == 'POST':
+           username      = request.POST.get('username')
+           plainpassword = request.POST.get('password')
+           admintype     = int(request.POST.get('admintype'))
+           status        =  int(request.POST.get('status'))
+           secret       =  secretGenerator()
+           password     = hashPassword(plainpassword + secret)
+
+           
+
+
+           obj = Admin.objects.create(
+               username = username,
+               password = password,
+               secret= secret,
+               admintype = admintype,
+               status = status,
+               )
+           return redirect('ListAdmin')
+    else:
+         return render(request,'forms/user.html') 
+
+def UpdateAdmin(request,id):
+    admin  = Admin.objects.get(id=id)
+    if request.method == 'POST':
+           username      = request.POST.get('username')
+           plainpassword = request.POST.get('password')
+           admintype     = int(request.POST.get('admintype'))
+           status        =  int(request.POST.get('status'))
+           secret        = admin.secret
+           password      = hashPassword(plainpassword + secret)
+
+           admin.save()
+
+           return redirect('ListAdmin')
+
+
+    return render(request,'forms/admin.html',{'admin':admin})  
+
+def DeleteAdmin(request,id):
+    
+    admin = Admin.objects.get(id=id)
+     
+    if request.method == 'POST':
+        admin.delete()
+        return redirect('ListAdmin')
+      
+
+    return render(request,'admin.html',{'admin': admin}) 
+
+
+
+def secretGenerator():
+    letters = string.ascii_lowercase + string.digits + string.punctuation
+    return ''.join(random.choice(letters) for i in range(10))
+
+
+def hashPassword(word):
+    password = hashlib.sha256(word.encode()).hexdigest()
+    return password
+
+
+
+
+
+
+  
+
+
 

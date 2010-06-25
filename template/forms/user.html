@@ -2,30 +2,26 @@
 {% block content %}
 <ul>
 <h1>User Form</h1>
-<form method="POST">
+<form method="POST" >
         {% csrf_token %}
          <div class="form-row">
            <div class="col">
-             <input type="text" class="form-control" name="username" value="{{user.username}}" placeholder="username">
+             <input type="text" class="form-control" name="username" value="" placeholder="username">
            </div>
            <div class="col">
-             <input type="password" class="form-control" name="password" value="{{user.password}}"  placeholder="password">
+             <input type="password" class="form-control" name="password" value=""  placeholder="password">
            </div>
          </div>
          <br>
          <div class="form-row">
            <div class="col">
-             <input type="text" class="form-control" name="secret" value="{{user.secret}}" placeholder="secret">
+             <input type="text" class="form-control" name="admintype"  placeholder="secret">
            </div>
            <div class="col">
+            <input type="text" class="form-control" name="status"  placeholder="secret">
+          </div>
+           <div class="col">
                 <select name="usertype" >'
-                   
-                   {% if user.usertype == 1 %}
-                   <option value="1">Freelancer</option>
-                   {% else %}
-                   <option value="2">Contractor</option>
-        
-                   {% endif %}
                    <option value="1">Freelancer</option>  
                    <option value="2">Contractor</option>        
                 </select>
@@ -35,7 +31,4 @@
          <button type="submit" class="btn btn-primary">Add User</button>
        </form>
        
-       {% if user %}
-       <a href=" {% url 'delete_user' user.id %} " class="btn btn-danger">Delete</a>
-       {% endif %}
 {% endblock content %}
