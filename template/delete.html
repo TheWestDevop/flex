@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div align="center" class="container">
+<form method="POST">
+<h1>Are you sure you want to delete {{user.username}} with User ID {{user.id}}</h1>
+{% csrf_token %}
+<button type="submit" class="btn btn-danger">Delete</button>
+</form>
+</div>
+{% endblock content %}

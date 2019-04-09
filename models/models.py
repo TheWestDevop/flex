@@ -74,18 +74,18 @@ class Job(models.Model):
 
 
 class JobApplication(models.Model):
-      id   = models.AutoField(primary_key=True)
-      jid        = models.IntegerField()
-      uid       = models.IntegerField()
-      awarded       = models.IntegerField(default=0)
+      id      = models.AutoField(primary_key=True)
+      jid     = models.IntegerField()
+      uid     = models.IntegerField()
+      awarded = models.IntegerField(default=0)
 
 
 class Notifiaction(models.Model):
       id            = models.AutoField(primary_key=True)
-      senderid       = models.IntegerField(default=0)
-      uid       = models.IntegerField()
-      status           = models.IntegerField()
+      senderid      = models.IntegerField(default=0)
+      uid           = models.IntegerField()
+      status        = models.IntegerField()
       title         = models.CharField(max_length=200)
-      message      = models.TextField()
-      isread           = models.IntegerField()
-      createdate     = models.DateTimeField(default=now)
+      message       = models.TextField()
+      isread        = models.IntegerField()
+      createdate    = models.DateTimeField(default=now)
