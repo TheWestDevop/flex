@@ -5,5 +5,5 @@ urlpatterns = [
     path('dashboard/',dashboard,name="dashboard"),
     path('login/',login,name="login"),
     path('auth',auth,name="auth"),
-    path('logout',logout,name="logout"),
+    path('logout/',logout,name="logout"),
 ]

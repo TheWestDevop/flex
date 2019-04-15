@@ -2,7 +2,7 @@
 <div class="container">
 
     <!-- Outer Row -->
-    <div class="row justify-content-center">
+    <div style="max-width:500px!important"class="row justify-content-center mx-auto">
 
       <div class="col-xl-10 col-lg-12 col-md-9">
 
@@ -15,13 +15,16 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
                   <br>
-                  {% if error %}
-                      <span style="color:red;font-weight:bold">{{error}}</span>
+                  {% if messages %}
+
+                    {% for message in messages %}
+                    <span   style="color:rgb(19, 16, 16); font-size:20px;" class="{{message.tags}} mx-auto" >{{message}}</span>
+                    {% endfor %}
+                      
                   {% endif %}
-                  {% if msg %}
-                  <span style="color:black;font-weight:bold">{{msg}}</span>
-              {% endif %}
-                    
+  
+                
+                    <br>
                   <form method="POST" action="/manager/auth">
                     {% csrf_token %}
                     <div class="form-group">

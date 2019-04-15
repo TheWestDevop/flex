@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render,redirect
-from django.urls import reverse
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout as AuthLogOut
 from models.models import Job,JobApplication,JobType,User,UserType,Country,City,State,Notifiaction,Profile,Admin,AdminType
 import random,string,hashlib
@@ -631,29 +632,40 @@ def dashboard(request):
 
 def logout(request):
      AuthLogOut(request)
-     return render(request,'login/',{'msg':'You Logged Out'}) 
+     msg = "You Have successfully log out"
+     messages.success(request,msg,extra_tags="success")
+     return redirect('login')
 
 def auth(request):
     if request.method == 'POST':
            username      = request.POST.get('username')
            plainpassword = request.POST.get('password')
+    try :   
+            user = Admin.objects.get(username=username)
+
+            secret = user.secret
            
-           user = Admin.objects.get(username=username)
-
-           secret = user.secret
-           
-           passwordConfirm = hashPassword(plainpassword+secret)
+            passwordConfirm = hashPassword(plainpassword+secret)
 
 
-           if passwordConfirm == user.password :
+            if passwordConfirm == user.password :
               return redirect('dashboard')
               pass
-           else:
-               message = "Invalid Username or Password"
+        
+            else:
+               errormsg = "Invalid Username or Password"
+               messages.error(request,errormsg)
                return redirect('login')
                pass
+    except ObjectDoesNotExist:
+
+               errormsg = "Invalid Username or Password"
+               messages.error(request,errormsg)
+               return redirect('login')
+               pass
+
     else:
-         return redirect(reverse('login'))
+         return redirect('login')
 def secretGenerator():
     letters = string.ascii_lowercase + string.digits + string.punctuation
     return ''.join(random.choice(letters) for i in range(10))
