@@ -621,14 +621,18 @@ def login(request):
 
 
 def dashboard(request):
-    user = User.objects.count()
-    admin = Admin.objects.count()
-    context = {
-     "user":user,
-     "admin":admin,
-    }
-    return render(request,'dashboard/index.html',context) 
+      
 
+    if request.session.has_key('username'):  
+       user = User.objects.count()
+       admin = Admin.objects.count()
+       context = {
+       "user":user,
+       "admin":admin,
+       }
+       return render(request,'dashboard/index.html',context) 
+    else :
+         return redirect('login')
 
 def logout(request):
      AuthLogOut(request)
@@ -649,6 +653,7 @@ def auth(request):
 
 
             if passwordConfirm == user.password :
+              request.session['username'] = user.username
               return redirect('dashboard')
               pass
         
