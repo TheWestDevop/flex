@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render,redirect
+from django.contrib.auth import logout as AuthLogOut
 from models.models import Job,JobApplication,JobType,User,UserType,Country,City,State,Notifiaction,Profile,Admin,AdminType
 import random,string,hashlib
 # Create your views here.
@@ -612,8 +613,48 @@ def DeleteAdmin(request,id):
 
     return render(request,'admin.html',{'admin': admin}) 
 
+#Login,logout,auth----------------------------------------------------------------------------------------------
+def login(request):
+    if request.method == 'POST':
+           username      = request.POST.get('username')
+           plainpassword = request.POST.get('password')
+           
+           user = User.objects.get(username=username)
+
+           secret = user.secret
+           
+           passwordConfirm = hashPassword(plainpassword+secret)
 
 
+           if passwordConfirm == user.password & username == user.username:
+              return redirect('dashboard')
+              pass
+           else:
+               message = "Invalid Username or Password"
+               return render(request,'forms/login.html',{'message':message}) 
+               pass
+
+           return redirect('Login')
+    else:
+         return render(request,'forms/login.html') 
+
+
+def dashboard(request):
+    user = User.objects.count()
+    admin = Admin.objects.count()
+    context = {
+     "user":user,
+     "admin":admin,
+    }
+    return render(request,'dashboard/index.html',context) 
+
+
+def logout(request):
+     AuthLogOut(request)
+     return render(request,'login',{'message':'You Logged Out'}) 
+
+def auth(request):
+     return render(request,'dashboard.html')
 def secretGenerator():
     letters = string.ascii_lowercase + string.digits + string.punctuation
     return ''.join(random.choice(letters) for i in range(10))

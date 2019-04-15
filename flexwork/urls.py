@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from manager import urls
+from website import urls
 urlpatterns = [
-    url(r'',include('manager.urls')),
+    url(r'^manager/',include('manager.urls')),
+    url(r'^/',include('website.urls')),
 ]
